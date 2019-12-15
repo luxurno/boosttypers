@@ -28,7 +28,7 @@ class DownloadExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/Resources/config'));
         $loader->load('services.yaml');
         
-        $container->setParameter('address', $config['address']);
-        $container->setParameter('count', $config['count']);
+        $container->setParameter('download.address', $config['address']);
+        $container->setParameter('download.count', $config['count']);
     }
 }

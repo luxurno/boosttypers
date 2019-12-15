@@ -1,0 +1,17 @@
+services:
+  App\Bundle\DownloadBundle\Service\DownloadProcessService:
+    class: App\Bundle\DownloadBundle\Service\DownloadProcessService
+    public: true
+    autowire: true
+  App\Bundle\DownloadBundle\Service\DownloadContentService:
+    class: App\Bundle\DownloadBundle\Service\DownloadContentService
+    public: true
+    autowire: true
+    
+  App\Bundle\DownloadBundle\Generator\ElementGenerator:
+    class: App\Bundle\DownloadBundle\Generator\ElementGenerator
+    arguments: ['@doctrine.orm.entity_manager']
+    
+  App\Bundle\DownloadBundle\Repository\ElementRepository:
+    class: App\Bundle\DownloadBundle\Repository\ElementRepository
+    factory: ['@doctrine.orm.entity_manager', getRepository]

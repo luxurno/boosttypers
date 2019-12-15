@@ -1,0 +1,3 @@
+index:
+    path: download/download
+    controller: App\Bundle\DownloadBundle\Controller\DownloadController::download
