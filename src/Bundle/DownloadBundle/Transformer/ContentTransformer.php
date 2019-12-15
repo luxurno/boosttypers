@@ -44,6 +44,7 @@ class ContentTransformer
                 $elementDTO->setTitle($dom->find("#content a", $i)->innerHtml);
                 $this->elementGenerator->generate($elementDTO);
             } catch (Exception $ex) {
+                echo $ex->getMessage()."<br/>";
             }
         }
     }

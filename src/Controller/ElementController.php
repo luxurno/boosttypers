@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Finder\DownloadElementFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,15 +20,16 @@ class ElementController extends AbstractController
      * @param int $count
      */
     public function getElements(
-        Request $request
+        Request $request,
+        DownloadElementFinder $downloadFinder
     ): JsonResponse
     {
-        $paramCount = $request->get('count');
-        $paramSort = $request->get('sort');
+        $elements = $downloadFinder->findByCriteria(
+            [],
+            (int)$request->get('limit'),
+            $request->get('sort')
+        );
         
-        echo "ParamCount: ".$paramCount."<br/>";
-        echo "ParamSort: ".$paramSort."<br/>";
-        
-        return new JsonResponse();
+        return new JsonResponse($elements);
     }
 }

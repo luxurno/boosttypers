@@ -17,12 +17,16 @@ class MainController extends AbstractController
         SessionInterface $session
     ): Response
     {
-        
-        
-        $response = $this->forward('App\Bundle\DownloadBundle\Controller\DownloadController::download', [
-            'address'  => $this->getParameter('download.address'),
-            'count'  => $this->getParameter('download.count'),
-        ]);
+        if ($session->get('isDownloaded')) {
+            $response = $this->forward('App\Controller\GaleryController::viewGalery', [
+                'count'  => $this->getParameter('download.count'),
+            ]);
+        } else {
+            $response = $this->forward('App\Bundle\DownloadBundle\Controller\DownloadController::download', [
+                'address'  => $this->getParameter('download.address'),
+                'count'  => $this->getParameter('download.count'),
+            ]);
+        }
         
         return $response;
     }

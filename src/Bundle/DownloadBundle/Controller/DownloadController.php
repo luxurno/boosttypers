@@ -29,7 +29,7 @@ class DownloadController extends AbstractController
         int $count
     ): Response
     {
-        //$downloadService->download($address);
+        $downloadService->download($address);
         $session->set('isDownloaded', true);
         
         $response = $this->forward('App\Controller\GaleryController::viewGalery', [
