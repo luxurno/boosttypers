@@ -17,6 +17,7 @@ class MainController extends AbstractController
         SessionInterface $session
     ): Response
     {
+        $session->set('isDownloaded', false);
         if ($session->get('isDownloaded')) {
             $response = $this->forward('App\Controller\GaleryController::viewGalery', [
                 'count'  => $this->getParameter('download.count'),

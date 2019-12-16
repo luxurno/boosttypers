@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Bundle\DownloadBundle\Transformer;
 
+use App\Bundle\DownloadBundle\Collection\ElementDTOCollection;
 use App\Bundle\DownloadBundle\Factory\ElementDTOFactory;
 use App\Bundle\DownloadBundle\Generator\ElementGenerator;
 use Exception;
@@ -17,35 +18,32 @@ class ContentTransformer
     /** @var ElementDTOFactory */
     private $elementDTOFactory;
     
-    /** @var ElementGenerator */
-    private $elementGenerator;
-    
     /**
      * @param ContentGenerator $contentGenerator
      */
-    public function __construct(
-        ElementDTOFactory $elementDTOFactory,
-        ElementGenerator $elementGenerator
-    )
+    public function __construct(ElementDTOFactory $elementDTOFactory)
     {
         $this->elementDTOFactory = $elementDTOFactory;
-        $this->elementGenerator = $elementGenerator;
     }
+    
     /**
-     * @param string $address
+     * @param Dom $dom
      */
-    public function transform(Dom $dom)
+    public function transform(Dom $dom): ElementDTOCollection
     {
-        for ($i=500; $i>= 1; $i--) {
+        $array = [];
+        
+        for ($i=20; $i>= 1; $i--) {
             try {
                 $elementDTO = $this->elementDTOFactory->factory();
                 
                 $elementDTO->setLink($dom->find("#content a", $i)->href);
                 $elementDTO->setTitle($dom->find("#content a", $i)->innerHtml);
-                $this->elementGenerator->generate($elementDTO);
+                $array[] = $elementDTO;
             } catch (Exception $ex) {
-                echo $ex->getMessage()."<br/>";
             }
         }
+        
+        return new ElementDTOCollection(... $array);
     }
 }

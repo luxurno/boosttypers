@@ -7,3 +7,8 @@ element:
     path: element/
     methods: [GET]
     controller: App\Controller\ElementController::getElements
+    
+test:
+    path: test/
+    methods: [GET]
+    controller: App\Controller\TestController::testDownload
