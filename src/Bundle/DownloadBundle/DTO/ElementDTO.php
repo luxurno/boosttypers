@@ -13,7 +13,13 @@ class ElementDTO
     private $link;
     
     /** @var string */
-    private $url;
+    private $title;
+    
+    /** @var bool */
+    private $isVideo;
+    
+    /** @var int */
+    private $photoNumber;
     
     /**
      * @param string $link
@@ -34,7 +40,7 @@ class ElementDTO
     /**
      * @param string $title
      */
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -45,5 +51,37 @@ class ElementDTO
     public function getTitle(): string
     {
         return $this->title;
+    }
+    
+    /**
+     * @param bool $isVideo
+     */
+    public function setIsVideo(bool $isVideo): void
+    {
+        $this->isVideo = $isVideo;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function getIsVideo(): bool
+    {
+        return $this->isVideo;
+    }
+    
+    /**
+     * @param int $photoNumber
+     */
+    public function setPhotoNumber(int $photoNumber): void
+    {
+        $this->photoNumber = $photoNumber;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getPhotoNumber(): int
+    {
+        return $this->photoNumber;
     }
 }

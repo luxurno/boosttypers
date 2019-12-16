@@ -6,7 +6,7 @@ namespace App\Bundle\DownloadBundle\Service;
 
 use App\Bundle\DownloadBundle\Generator\ElementGenerator;
 use App\Bundle\DownloadBundle\Transformer\ContentTransformer;
-use App\Bundle\DownloadBundle\Service\DownloadPhotoElementService;
+use App\Bundle\DownloadBundle\Service\DownloadPhotoService;
 use PHPHtmlParser\Dom;
 
 /**
@@ -20,38 +20,38 @@ class DownloadService
     /** @var ElementGenerator */
     private $elementGenerator;
     
-    /** @var DownloadPhotoElementService */
-    private $downloadPhotoElementService;
+    /** @var DownloadPhotoService */
+    private $downloadPhotoService;
     
     /**
-     * @param ContentTransformer $contentTransformer
+     * @param ContentTransformer   $contentTransformer
+     * @param ElementGenerator     $elementGenerator
+     * @param DownloadPhotoService $downloadPhotoService
      */
     public function __construct(
         ContentTransformer $contentTransformer,
         ElementGenerator $elementGenerator,
-        DownloadPhotoElementService $downloadPhotoElementService
+        DownloadPhotoService $downloadPhotoService
     )
     {
         $this->contentTransformer = $contentTransformer;
         $this->elementGenerator = $elementGenerator;
-        $this->downloadPhotoElementService = $downloadPhotoElementService;
+        $this->downloadPhotoService = $downloadPhotoService;
     }
     
     /**
      * @param string $address
+     * @param int    $count
      */
-    public function download(string $address): void
+    public function download(string $address, int $count): void
     {
         $dom = new Dom;
         $dom->loadFromUrl($address);
         
-        $collection = $this->contentTransformer->transform($dom);
-        
+        $collection = $this->contentTransformer->transform($dom, $count);
         foreach ($collection->getIterator() as $elementDTO) {
-            $this->downloadPhotoElementService->getPhotos($address, $elementDTO->getLink());
-            //$this->elementGenerator->generate($elementDTO);
+            $this->elementGenerator->generate($elementDTO);
+            $this->downloadPhotoService->getPhotos($address, $elementDTO);
         }
-        echo "Kuniec";
-        die;
     }
 }

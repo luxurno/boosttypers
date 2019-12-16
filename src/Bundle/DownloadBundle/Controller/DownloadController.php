@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-ini_set('max_execution_time', '120');
+ini_set('max_execution_time', '300');
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
@@ -29,7 +29,7 @@ class DownloadController extends AbstractController
         int $count
     ): Response
     {
-        $downloadService->download($address);
+        $downloadService->download($address, $count);
         $session->set('isDownloaded', true);
         
         $response = $this->forward('App\Controller\GaleryController::viewGalery', [

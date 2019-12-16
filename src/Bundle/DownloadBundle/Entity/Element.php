@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Bundle\DownloadBundle\Entity;
 
+use App\Bundle\DownloadBundle\Entity\ElementPhoto;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity 
@@ -36,7 +38,25 @@ class Element
      * @ORM\Column(type="string", unique=true)
      */
     protected $link;
+    
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="is_video", type="boolean", options={"default":0})
+     */
+    protected $isVideo = 0;
+    
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="photo_number", type="integer", nullable=true)
+     */
+    protected $photoNumber;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ElementPhoto", mappedBy="sample", cascade={"persist"})
+     */  
+    protected $photos;
     /**
      * @var DateTime $created
      *
@@ -64,6 +84,19 @@ class Element
         }
     }
     
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+    }
+    
+    public function addPhoto(ElementPhoto $elementPhoto)
+    {
+       $this->photos->add($elementPhoto); 
+       $elementPhoto->setElement($this);
+       
+       return $this;
+    }
+    
     public function getId(): int
     {
         return $this->id;
@@ -87,6 +120,26 @@ class Element
     public function setLink(string $link): void
     {
         $this->link = $link;
+    }
+    
+    public function setIsVideo(bool $isVideo): void
+    {
+        $this->isVideo = $isVideo;
+    }
+    
+    public function getIsVideo(): bool
+    {
+        return $this->isVideo;
+    }
+    
+    public function setPhotoNumber(int $photoNumber): void
+    {
+        $this->photoNumber = $photoNumber;
+    }
+    
+    public function getPhotoNumber(): int
+    {
+        $this->photoNumber;
     }
 
     public function getCreatedAt() :?DateTime

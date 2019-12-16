@@ -4,6 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Bundle\DownloadBundle\Transformer;
 
+use App\Bundle\DownloadBundle\Collection\ElementPhotoDTOCollection;
+use App\Bundle\DownloadBundle\Collector\PhotoCollector;
+use App\Bundle\DownloadBundle\DTO\ElementDTO;
+use App\Bundle\DownloadBundle\Factory\ElementPhotoDTOFactory;
+use App\Bundle\DownloadBundle\Provider\PhotoProvider;
 use Exception;
 use PHPHtmlParser\Dom;
 
@@ -12,57 +17,68 @@ use PHPHtmlParser\Dom;
  */
 class ContentPhotoTransformer
 {
+    /** @var ElementPhotoDTOFactory */
+    private $elementPhotoDTOFactory;
+    
+    /** @var PhotoCollector */
+    private $photoCollector;
+    
+    /** @var PhotoConverter */
+    private $photoProvider;
+    
     /**
-     * 
-     * @param Dom $dom
+     * @param ElementPhotoDTOFactory $elementPhotoDTOFactory
+     * @param PhotoCollector         $photoCollector
+     * @param PhotoProvider          $photoProvider
      */
-    public function transform(Dom $dom): void
+    public function __construct(
+        ElementPhotoDTOFactory $elementPhotoDTOFactory,
+        PhotoCollector $photoCollector,
+        PhotoProvider $photoProvider
+    )
     {
-        $photos = $dom->find("img",0);
+        $this->elementPhotoDTOFactory = $elementPhotoDTOFactory;
+        $this->photoCollector = $photoCollector;
+        $this->photoProvider = $photoProvider;
+    }
+    
+    /**
+     * @param ?Dom        $dom
+     * @param ElementDTO $elementDTO
+     * @param string     $website
+     * 
+     * @return ElementPhotoDTOCollection
+     */
+    public function transform(?Dom $dom, ElementDTO $elementDTO, string $website): ElementPhotoDTOCollection
+    {
+        $array = [];
         
-        var_dump($photos);
-        echo "<br/><br/>";
-        die;
-        
-        
-        try {
-            $photos = $dom->find("title",0)->innertext;
-        } catch (Exception $ex) {
-            echo $ex->getMessage();
+        if ($dom !== null) {
+            try {
+                $photos = $dom->find("script",0)->innerhtml;
+                $photos = $this->photoCollector->collect($photos);
+                $photos = $this->photoProvider->provide($photos, $website);
+
+                foreach ($photos as $photo) {
+                    $elementPhotoDTO = $this->elementPhotoDTOFactory->factory();
+                    $elementPhotoDTO->setHref($photo);
+                    $array[] = $elementPhotoDTO;
+                }
+                $elementDTO->setIsVideo(true);
+            } catch (Exception $ex) {
+                echo "Problem with downloading photos: ";
+                echo $ex->getMessage();
+                throw $ex;
+            }
+        } else {
+            $elementDTO->setIsVideo(true);
+            $elementPhotoDTO = $this->elementPhotoDTOFactory->factory();
+            $elementPhotoDTO->setHref($website);
+            $array[] = $elementPhotoDTO;
         }
         
-        if (!empty($photos)) {
-            var_dump($photos);
-        }
         
-        print_r($dom);
-        die;
-        
-        
-        foreach ($photos as $photo) {
-            var_dump(htmlentities($photo->plaintext));
-        }
-        echo "<br/><br/>";
-        echo "Transformuje!";
-        echo "<br/><br/>";
-            die;
-        
-        
-        
-        
-//        if (isset($photos)) {
-//            echo "Photos";
-//            var_dump($photos);
-//        }
-//        echo "<br/><br/>";
-        
-        //print_r($dom);
-        
-        echo "<br/><br/>";
-        echo "Transformuje!";
-        
-        die;
-        
+        return new ElementPhotoDTOCollection(... $array);
     }
     
 }

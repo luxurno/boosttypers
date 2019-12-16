@@ -24,6 +24,15 @@ class WebsiteConverter
         }
         
         if (null !== $link) {
+            if (strpos($link, "/") !== false) {
+                $link = explode('/', $link);
+                array_walk(
+                    $link, 
+                    function(&$url) {
+                        $url = rawurlencode(rawurldecode($url));
+                });
+                $link = implode('/', $link);
+            }
             $website .= ltrim($link, '.');
         }
         

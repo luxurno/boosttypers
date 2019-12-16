@@ -28,12 +28,15 @@ class ContentTransformer
     
     /**
      * @param Dom $dom
+     * @param int $count
+     * 
+     * @return ElementDTOCollection
      */
-    public function transform(Dom $dom): ElementDTOCollection
+    public function transform(Dom $dom, int $count): ElementDTOCollection
     {
         $array = [];
         
-        for ($i=20; $i>= 1; $i--) {
+        for ($i=$count; $i>= 1; $i--) {
             try {
                 $elementDTO = $this->elementDTOFactory->factory();
                 
