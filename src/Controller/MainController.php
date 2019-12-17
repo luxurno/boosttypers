@@ -13,7 +13,11 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class MainController extends AbstractController
 {
-    public function getGalery(
+    /**
+     * @param SessionInterface $session
+     * @return Response
+     */
+    public function getUpdate(
         SessionInterface $session
     ): Response
     {

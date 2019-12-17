@@ -41,13 +41,13 @@ class ContentPhotoTransformer
         $this->photoCollector = $photoCollector;
         $this->photoProvider = $photoProvider;
     }
-    
+
     /**
      * @param ?Dom        $dom
      * @param ElementDTO $elementDTO
-     * @param string     $website
-     * 
+     * @param string $website
      * @return ElementPhotoDTOCollection
+     * @throws Exception
      */
     public function transform(?Dom $dom, ElementDTO $elementDTO, string $website): ElementPhotoDTOCollection
     {

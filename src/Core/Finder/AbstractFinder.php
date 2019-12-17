@@ -36,7 +36,9 @@ abstract class AbstractFinder
      */
     public function executeSelectStatment(Select $query): array
     {
-        $this->statment = $this->em->getConnection()->prepare($query);
+        $this->statment = $this->em->getConnection()
+            ->prepare($query);
+        
         $this->bindValues();
         
         $this->statment->execute();
@@ -56,6 +58,16 @@ abstract class AbstractFinder
         return $this->statment->fetchAll();
     }
     
+    protected function applyCriteria(Select $query, array $criteria)
+    {
+        foreach ($criteria as $key => $value) {
+            $query->where()
+                ->equals($key, $value)
+                ->end();
+        }
+    }
+
+
     private function bindValues()
     {
         foreach ($this->queryBuilder->getValues() as $key => $value) {

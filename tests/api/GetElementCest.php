@@ -4,8 +4,13 @@ namespace Tests\api;
 
 use \Codeception\Util\HttpCode;
 
+/**
+ * @author Marcin Szostak <marcin.szostak@luxurno.pl>
+ */
 class GetElementCest
 {
+    const LIMIT = 10;
+    
     public function _before(\ApiTester $I)
     {
     }
@@ -15,17 +20,14 @@ class GetElementCest
      */
     public function tryToTestResult(\ApiTester $I)
     {
-        $limit = 10;
-        
         $I->sendGET('/element/', [
-            'limit' => $limit,
+            'limit' => self::LIMIT,
             'sort' => 'created_at',
         ]);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $response = $I->grabResponseAsArray();
         
-        $I->assertEquals($limit, count($response));
-        
+        $I->assertEquals(self::LIMIT, count($response));
         $element = $response[0];
         
         $I->assertArrayHasKey('id', $element);

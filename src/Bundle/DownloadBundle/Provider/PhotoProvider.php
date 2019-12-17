@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Provider;
 
 use App\Bundle\DownloadBundle\Converter\PhotoConverter;
-use App\Bundle\DownloadBundle\DTO\ElementDTO;
 use App\Bundle\DownloadBundle\Manipulator\PhotoManipulator;
 use App\Bundle\DownloadBundle\Validator\PhotoProviderValidator;
 
@@ -37,7 +36,6 @@ class PhotoProvider
     /**
      * @param array  $photos
      * @param string $website
-     * 
      * @return array
      */
     public function provide(array $photos, string $website): array

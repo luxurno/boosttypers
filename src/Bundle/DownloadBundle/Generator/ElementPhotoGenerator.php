@@ -9,13 +9,14 @@ use App\Bundle\DownloadBundle\DTO\ElementDTO;
 use App\Bundle\DownloadBundle\Entity\ElementPhoto;
 use App\Bundle\DownloadBundle\Repository\ElementRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
  */
 class ElementPhotoGenerator
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $em;
     
     /** @var ElementRepository */
@@ -33,11 +34,11 @@ class ElementPhotoGenerator
         $this->em = $em;
         $this->elementRepository = $elementRepository;
     }
-    
+
     /**
-     * 
-     * @param ElementDTO                $elementDTO
+     * @param ElementDTO $elementDTO
      * @param ElementPhotoDTOCollection $elementPhotoDTOCollection
+     * @throws Exception
      */
     public function generatePhotos(
         ElementDTO $elementDTO,

@@ -8,11 +8,12 @@ use App\Bundle\DownloadBundle\Entity\Element;
 use App\Core\Finder\AbstractFinder;
 use Doctrine\ORM\EntityManagerInterface;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use PDO;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
  */
-class DownloadElementFinder extends AbstractFinder
+class ElementFinder extends AbstractFinder
 {
     /** @var array */
     protected $columns = [
@@ -29,7 +30,7 @@ class DownloadElementFinder extends AbstractFinder
     }
     
     public function findByCriteria(
-        array $criteria,
+        ?array $criteria,
         ?int $limit,
         ?string $sortBy,
         ?string $sortTypeBy = 'ASC'
@@ -42,11 +43,16 @@ class DownloadElementFinder extends AbstractFinder
             $query->orderBy($sortBy, $sortTypeBy);
         }
         
+        // Issue, so slice is required
+        // I throught about forking library, but this is kinda hotfix
+        // https://github.com/nilportugues/php-sql-query-builder/issues/105
+        $data = $this->executeSelectStatment($query);
+        
         if (null !== $limit) {
-            $query->limit(0, (int)$limit);
+            $data = array_slice($data, 0, $limit);
         }
         
-        return $this->executeSelectStatment($query);
+        return $data;
     }
     
     public function getTableName(): string

@@ -139,7 +139,7 @@ class Element
     
     public function getPhotoNumber(): int
     {
-        $this->photoNumber;
+        return $this->photoNumber;
     }
 
     public function getCreatedAt() :?DateTime

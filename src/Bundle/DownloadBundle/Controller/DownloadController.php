@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Controller;
 
 use App\Bundle\DownloadBundle\Service\DownloadService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Response;

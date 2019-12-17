@@ -12,7 +12,6 @@ class WebsiteConverter
     /**
      * @param string $website
      * @param string $link
-     * 
      * @return string
      */
     public function convert(string $website, ?string $link): string

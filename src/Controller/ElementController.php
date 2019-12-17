@@ -4,7 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use App\Finder\DownloadElementFinder;
+use App\Finder\ElementFinder;
+use App\Finder\ElementPhotoFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,16 +19,34 @@ class ElementController extends AbstractController
 {
     /**
      * @param int $count
+     * @return JsonResponse
      */
     public function getElements(
-        Request $request,
-        DownloadElementFinder $downloadFinder
+        ElementFinder $elementFinder,
+        Request $request
     ): JsonResponse
     {
-        $elements = $downloadFinder->findByCriteria(
+        $elements = $elementFinder->findByCriteria(
             [],
             (int)$request->get('limit'),
             $request->get('sort')
+        );
+        
+        return new JsonResponse($elements);
+    }
+
+    /**
+     * @param ElementPhotoFinder $elementPhotoFinder
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getElementPhotos(
+        ElementPhotoFinder $elementPhotoFinder,
+        int $id
+    ): JsonResponse
+    {
+        $elements = $elementPhotoFinder->findByCriteria(
+            ['id' => $id]
         );
         
         return new JsonResponse($elements);

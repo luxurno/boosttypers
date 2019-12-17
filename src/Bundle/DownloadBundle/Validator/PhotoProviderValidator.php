@@ -11,6 +11,7 @@ class PhotoProviderValidator
 {
     /**
      * @param string $href
+     * @return bool
      */
     public function validate(string $href): bool
     {

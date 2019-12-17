@@ -12,7 +12,6 @@ class PhotoConverter
     /**
      * @param string $website
      * @param string $href
-     * 
      * @return string
      */
     public function convert(string $website, string $href): string

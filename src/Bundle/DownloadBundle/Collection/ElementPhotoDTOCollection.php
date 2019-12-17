@@ -7,13 +7,14 @@ namespace App\Bundle\DownloadBundle\Collection;
 use ArrayIterator;
 use Countable;
 use App\Bundle\DownloadBundle\DTO\ElementPhotoDTO;
+use IteratorAggregate;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
  */
-class ElementPhotoDTOCollection implements Countable
+class ElementPhotoDTOCollection implements Countable, IteratorAggregate
 {
-    /** @var ElementDTO[] */
+    /** @var ElementPhotoDTO[] */
     private $array;
     
     public function __construct(ElementPhotoDTO ... $elementPhotoDTO)

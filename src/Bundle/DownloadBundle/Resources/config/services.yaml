@@ -14,4 +14,8 @@ services:
     
   App\Bundle\DownloadBundle\Repository\ElementRepository:
     class: App\Bundle\DownloadBundle\Repository\ElementRepository
-    factory: ['@doctrine.orm.entity_manager', getRepository]
+    factory: ['@doctrine', getRepository]
+    
+  App\Bundle\DownloadBundle\Repository\ElementPhotoRepository:
+    class: App\Bundle\DownloadBundle\Repository\ElementPhotoRepository
+    factory: ['@doctrine', getRepository]

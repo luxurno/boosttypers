@@ -6,7 +6,6 @@ namespace App\Bundle\DownloadBundle\Generator;
 
 use App\Bundle\DownloadBundle\DTO\ElementDTO;
 use App\Bundle\DownloadBundle\Entity\Element;
-use App\Bundle\DownloadBundle\Repository\ElementRepository;
 use App\Bundle\DownloadBundle\Validator\ElementValidator;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ElementGenerator
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $em;
     
     /** @var ElementValidator */

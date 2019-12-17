@@ -11,6 +11,7 @@ class PhotoCollector
 {
     /**
      * @param string $stringPhotos
+     * @return array
      */
     public function collect(string $stringPhotos): array
     {

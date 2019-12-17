@@ -6,11 +6,12 @@ namespace App\Bundle\DownloadBundle\Collection;
 
 use ArrayIterator;
 use App\Bundle\DownloadBundle\DTO\ElementDTO;
+use IteratorAggregate;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
  */
-class ElementDTOCollection
+class ElementDTOCollection implements IteratorAggregate
 {
     /** @var ElementDTO[] */
     private $array;

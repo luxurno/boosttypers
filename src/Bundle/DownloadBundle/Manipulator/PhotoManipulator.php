@@ -11,6 +11,7 @@ class PhotoManipulator
 {
     /**
      * @param string $href
+     * @return string
      */
     public function manipulate(string $href): string
     {

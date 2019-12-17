@@ -11,8 +11,9 @@ class PhotoElementLinkValidator
 {
     /**
      * @param string $url
+     * @return bool
      */
-    public function validate(string $url)
+    public function validate(string $url): bool
     {
         $url = strtolower($url);
         

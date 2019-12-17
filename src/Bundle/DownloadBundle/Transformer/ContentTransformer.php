@@ -6,7 +6,6 @@ namespace App\Bundle\DownloadBundle\Transformer;
 
 use App\Bundle\DownloadBundle\Collection\ElementDTOCollection;
 use App\Bundle\DownloadBundle\Factory\ElementDTOFactory;
-use App\Bundle\DownloadBundle\Generator\ElementGenerator;
 use Exception;
 use PHPHtmlParser\Dom;
 
@@ -19,7 +18,7 @@ class ContentTransformer
     private $elementDTOFactory;
     
     /**
-     * @param ContentGenerator $contentGenerator
+     * @param ElementDTOFactory $elementDTOFactory
      */
     public function __construct(ElementDTOFactory $elementDTOFactory)
     {
