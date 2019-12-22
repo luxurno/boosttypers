@@ -8,9 +8,7 @@ use App\Finder\ElementFinder;
 use App\Finder\ElementPhotoFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
@@ -26,12 +24,18 @@ class ElementController extends AbstractController
         Request $request
     ): JsonResponse
     {
+        $sortBy = $request->get('sort_by');
+        if (false === empty($sortBy)) {
+            $sortBy = strtoupper($sortBy);
+        }
+
         $elements = $elementFinder->findByCriteria(
             [],
-            (int)$request->get('limit'),
-            $request->get('sort')
+            (int) $request->get('limit'),
+            $request->get('sort_type'),
+            $sortBy
         );
-        
+
         return new JsonResponse($elements);
     }
 
@@ -46,7 +50,7 @@ class ElementController extends AbstractController
     ): JsonResponse
     {
         $elements = $elementPhotoFinder->findByCriteria(
-            ['id' => $id]
+            ['element_id' => $id]
         );
         
         return new JsonResponse($elements);

@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Service\GaleryService;
 use App\Bundle\DownloadBundle\Repository\ElementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,15 +17,19 @@ class GalleryController extends AbstractController
 {
     /**
      * @param GaleryService $galleryService
+     * @param Request       $request
      * @return Response
      */
-    public function listGallery(GaleryService $galleryService): Response
+    public function listGallery(
+        GaleryService $galleryService,
+        Request $request
+    ): Response
     {
         $results = $galleryService->getResults();
         
         return $this->render('galery/index.html.twig', [
-            'category' => '...',
-            'promotions' => ['...', '...'],
+            'sort_type' => $request->get('sort_type'),
+            'sort_by' => $request->get('sort_by'),
         ]);
     }
 
@@ -43,10 +48,11 @@ class GalleryController extends AbstractController
         if (!$elementEntity) {
             throw $this->createNotFoundException('The element does not exist');
         }
+
         return $this->render('galery/browse.html.twig', [
             'id' => $id,
-            'isVideo' => $elementEntity->getIsVideo(),
-            'photoNumber' => $elementEntity->getPhotoNumber(),
+            'is_video' => $elementEntity->getIsVideo(),
+            'photo_number' => $elementEntity->getPhotoNumber(),
             'date' => 'Sep 2015'
         ]);
     }

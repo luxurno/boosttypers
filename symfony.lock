@@ -1,4 +1,7 @@
 {
+    "beberlei/assert": {
+        "version": "v3.2.7"
+    },
     "behat/gherkin": {
         "version": "v4.6.0"
     },
@@ -258,6 +261,12 @@
     "sebastian/version": {
         "version": "2.0.1"
     },
+    "simple-bus/message-bus": {
+        "version": "v3.0.3"
+    },
+    "simple-bus/symfony-bridge": {
+        "version": "v5.3.1"
+    },
     "symfony/browser-kit": {
         "version": "v4.4.1"
     },
@@ -375,6 +384,9 @@
     "symfony/process": {
         "version": "v4.4.1"
     },
+    "symfony/profiler-pack": {
+        "version": "v1.0.4"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -423,6 +435,20 @@
     },
     "symfony/var-exporter": {
         "version": "v4.4.1"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "./config/packages/dev/web_profiler.yaml",
+            "./config/packages/test/web_profiler.yaml",
+            "./config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/web-server-bundle": {
         "version": "3.3",

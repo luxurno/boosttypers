@@ -4,12 +4,12 @@ index:
     controller: App\Controller\MainController::getUpdate
 
 element:
-    path: element/
+    path: v1/element/
     methods: [GET]
     controller: App\Controller\ElementController::getElements
     
 element_photos:
-    path: element/photos/{id}
+    path: v1/element/photos/{id}
     methods: [GET]
     controller: App\Controller\ElementController::getElementPhotos
 
@@ -23,4 +23,7 @@ browse_galery:
     methods: [GET]
     controller: App\Controller\GalleryController::listBrowseGallery
 
-
+index_em:
+    path: em/
+    methods: [GET]
+    controller: App\Controller\MainController::em

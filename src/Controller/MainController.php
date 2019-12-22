@@ -4,7 +4,13 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
+use App\Bundle\DownloadBundle\Finder\ElementFinder;
+use App\Bundle\DownloadBundle\Repository\ElementRepository;
+use App\Bundle\DownloadBundle\Service\DownloadPhotoService;
+use App\Bundle\DownloadBundle\Service\DownloadService;
+use App\Bundle\DownloadBundle\ValueObject\DownloadValueObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -34,5 +40,22 @@ class MainController extends AbstractController
         }
         
         return $response;
+    }
+
+    public function em(
+        DownloadPhotoService $downloadPhotoService,
+        DownloadService $downloadService
+    ): Response
+    {
+        $downloadValueObject = new DownloadValueObject(
+            $this->getParameter('download.address'),
+            $this->getParameter('download.count')
+        );
+        $downloadPhotoService->downloadPhotos($downloadValueObject);
+
+        die;
+
+        //$downloadService->download($downloadValueObject);
+        //$downloadPhotoService->downloadPhotos($downloadValueObject);
     }
 }

@@ -17,7 +17,7 @@ abstract class AbstractFinder
 {
     /** @var EntityManagerInterface */
     private $em;
-    
+
     /** @var Statement */
     private $statment = '';
 
@@ -30,7 +30,7 @@ abstract class AbstractFinder
         $this->em = $em;
         $this->queryBuilder = new GenericBuilder();
     }
-    
+
     /**
      * @param Select $query
      */
@@ -38,26 +38,26 @@ abstract class AbstractFinder
     {
         $this->statment = $this->em->getConnection()
             ->prepare($query);
-        
+
         $this->bindValues();
-        
+
         $this->statment->execute();
-        
+
 //        echo "</br>Wrapped: </br>";
 //        print_r($this->statment->getWrappedStatement());
-//        
+//
 //        echo "</br>ErrorCode: </br>";
 //        print_r($this->statment->errorCode());
-//        
+//
 //        echo "</br>ErrorStatment</br>";
 //        print_r($this->statment->errorInfo());
-//        
+//
 //        echo "Fetched:<br/>";
 //        print_r($this->statment->fetchAll());
-//        
+//
         return $this->statment->fetchAll();
     }
-    
+
     protected function applyCriteria(Select $query, array $criteria)
     {
         foreach ($criteria as $key => $value) {

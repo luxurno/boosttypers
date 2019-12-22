@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Command;
 
 use App\Bundle\DownloadBundle\Service\DownloadPhotoService;
+use App\Bundle\DownloadBundle\ValueObject\DownloadValueObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -41,20 +42,22 @@ class DownloadElementPhotosCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-            'Downloading Elements Data',
+            'Downloading Elements Photos Data',
             '==========================',
             'Processing...',
             ''
         ]);
 
-        $this->downloadPhotoService->download(
+        $downloadValueObject = new DownloadValueObject(
             $this->containerBag->get('download.address'),
             $this->containerBag->get('download.count')
         );
 
+        $this->downloadPhotoService->downloadPhotos($downloadValueObject);
+
         $output->writeln([
             '==========================',
-            'Elements has been downloaded successfully',
+            'Elements Photos has been downloaded successfully',
         ]);
     }
 }

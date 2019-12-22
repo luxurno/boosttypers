@@ -23,6 +23,9 @@ class WebsiteConverter
         }
         
         if (null !== $link) {
+            if (substr($link, 0, 1) !== '/') {
+                $link = '/'.$link;
+            }
             if (strpos($link, "/") !== false) {
                 $link = explode('/', $link);
                 array_walk(

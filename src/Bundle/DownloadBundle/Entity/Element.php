@@ -38,7 +38,14 @@ class Element
      * @ORM\Column(type="string", unique=true)
      */
     protected $link;
-    
+
+    /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $date;
+
     /**
      * @var bool
      * 
@@ -54,7 +61,7 @@ class Element
     protected $photoNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="ElementPhoto", mappedBy="sample", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ElementPhoto", mappedBy="element", cascade={"persist"})
      */  
     protected $photos;
     /**
@@ -120,6 +127,16 @@ class Element
     public function setLink(string $link): void
     {
         $this->link = $link;
+    }
+
+    public function getDate(): ?DateTime
+    {
+        return $this->date;
+    }
+
+    public function setDate(?DateTime $date): void
+    {
+        $this->date = $date;
     }
     
     public function setIsVideo(bool $isVideo): void

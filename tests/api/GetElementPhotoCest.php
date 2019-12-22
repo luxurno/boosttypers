@@ -2,6 +2,7 @@
 
 namespace Tests\api;
 
+use ApiTester;
 use \Codeception\Util\HttpCode;
 
 /**
@@ -11,16 +12,16 @@ class GetElementPhotoCest
 {
     const ID = 2;
     
-    public function _before(\ApiTester $I)
+    public function _before(ApiTester $I)
     {
     }
 
     /**
      * @param ApiTester $I
      */
-    public function tryToTestElementPhotoResult(\ApiTester $I)
+    public function tryToTestElementPhotoResult(ApiTester $I)
     {
-        $I->sendGET('/element/photos/'.self::ID, []);
+        $I->sendGET('/v1/element/photos/'.self::ID, []);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $response = $I->grabResponseAsArray();
         

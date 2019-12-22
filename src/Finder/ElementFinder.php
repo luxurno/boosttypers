@@ -20,6 +20,8 @@ class ElementFinder extends AbstractFinder
         'id',
         'link',
         'title',
+        'date',
+        'photo_number',
     ];
     
     public function __construct(
@@ -44,7 +46,7 @@ class ElementFinder extends AbstractFinder
         }
         
         // Issue, so slice is required
-        // I throught about forking library, but this is kinda hotfix
+        // I thought about forking library, but this is kinda hotfix for now
         // https://github.com/nilportugues/php-sql-query-builder/issues/105
         $data = $this->executeSelectStatment($query);
         

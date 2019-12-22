@@ -1,13 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Galery{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Galery{% endblock %}</title>
+</head>
+<body data-sort-type="{{ sort_type }}" data-sort-by="{{ sort_by }}">
+    Galeria zdjęć<br/><br/>
+    <form action="/galery" method="get">
+        Sortowanie <select required id="sorttype" name="sort_type">
+            <option value="">Wybierz</option>
+            <option value="date">Data</option>
+            <option value="photo_number">Ilość zdjęć</option>
+        </select><br/>
+        Typ Sortowania <select required id="sort_by" name="sort_by">
+            <option value="">Wybierz</option>
+            <option value="asc">rosnąco</option>
+            <option value="desc">malejąco</option>
+        </select>
+        <p><input type="submit" value="Wyślij" /> </p>
+    </form>
+    <br/>
+    <div id="table-holder">
+    </div>
+</body>
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        let i;
+        let sortType = $('body').data("sort-type");
+        let sortBy = $('body').data("sort-by");
+
+        function generateRequestUri()
+        {
+            let url = '/v1/element/?limit=20';
+
+            if (sortType !== 0) {
+                url = url + '&sort_type=' + sortType;
+            }
+            if (sortBy !== 0) {
+                url = url + '&sort_by=' + sortBy;
+            }
+
+            return url;
+        }
+
+        function onLoad()
+        {
+            var response = $.ajax({
+                type: 'GET',
+                url: generateRequestUri(),
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    $("#table-holder").empty();
+                    $.each(data, function(index, element) {
+                        $("#table-holder").append(`${index+1}. <a href="/galery/${element.id}">${element.title}</a><br/>`);
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            }).responseText;
+        }
+
+        onLoad();
+    </script>
+{% endblock %}
 </html>

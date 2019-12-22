@@ -26,24 +26,19 @@ class ContentTransformer
     }
     
     /**
-     * @param Dom $dom
-     * @param int $count
-     * 
+     * @param array $links
      * @return ElementDTOCollection
      */
-    public function transform(Dom $dom, int $count): ElementDTOCollection
+    public function transform(array $links): ElementDTOCollection
     {
         $array = [];
-        
-        for ($i=$count; $i>= 1; $i--) {
-            try {
-                $elementDTO = $this->elementDTOFactory->factory();
-                
-                $elementDTO->setLink($dom->find("#content a", $i)->href);
-                $elementDTO->setTitle($dom->find("#content a", $i)->innerHtml);
-                $array[] = $elementDTO;
-            } catch (Exception $ex) {
-            }
+        foreach ($links as $link) {
+            $elementDTO = $this->elementDTOFactory->factory();
+
+            $elementDTO->setLink($link['link']);
+            $elementDTO->setTitle($link['title']);
+            $elementDTO->setDate($link['date']);
+            $array[] = $elementDTO;
         }
         
         return new ElementDTOCollection(... $array);

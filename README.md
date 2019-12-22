@@ -7,5 +7,9 @@ php bin/console app:download:element
 ####### Use following command to download photos for elements
 php bin/console app:download:element-photos
 
-### Running API Tests in CodeCeption
+## Tests
+### Running API Tests in Codeception
 vendor/bin/codecept run api
+
+### Running Unit Tests in Codeception
+vendor/bin/codecept run unit

@@ -8,10 +8,6 @@ services:
     public: true
     autowire: true
     
-  App\Bundle\DownloadBundle\Generator\ElementGenerator:
-    class: App\Bundle\DownloadBundle\Generator\ElementGenerator
-    arguments: ['@doctrine.orm.entity_manager']
-    
   App\Bundle\DownloadBundle\Repository\ElementRepository:
     class: App\Bundle\DownloadBundle\Repository\ElementRepository
     factory: ['@doctrine', getRepository]
@@ -19,3 +15,86 @@ services:
   App\Bundle\DownloadBundle\Repository\ElementPhotoRepository:
     class: App\Bundle\DownloadBundle\Repository\ElementPhotoRepository
     factory: ['@doctrine', getRepository]
+
+### Strategy Download
+  App\Bundle\DownloadBundle\Download\DownloadContext:
+    class: App\Bundle\DownloadBundle\Download\DownloadContext
+
+  App\Bundle\DownloadBundle\Download\Strategy\AbstractStrategy:
+    class: App\Bundle\DownloadBundle\Download\Strategy\AbstractStrategy
+
+  App\Bundle\DownloadBundle\Collector\PhotoCollector:
+    class: App\Bundle\DownloadBundle\Collector\PhotoCollector
+
+  App\Bundle\DownloadBundle\Service\JavascriptDownloadService:
+    class: App\Bundle\DownloadBundle\Service\JavascriptDownloadService
+
+  App\Bundle\DownloadBundle\Provider\PhotoProvider:
+    class: App\Bundle\DownloadBundle\Provider\PhotoProvider
+
+  download_bundle.default_download_strategy:
+    class: App\Bundle\DownloadBundle\Download\Strategy\DefaultDownloadStrategy
+    arguments:
+      - '@App\Bundle\DownloadBundle\Collector\PhotoCollector'
+      - '@App\Bundle\DownloadBundle\Provider\PhotoProvider'
+    tags:
+      - { name: download_strategy }
+
+  download_bundle.javascript_download_strategy:
+    class: App\Bundle\DownloadBundle\Download\Strategy\JavascriptDownloadStrategy
+    arguments:
+      - '@App\Bundle\DownloadBundle\Service\JavascriptDownloadService'
+    tags:
+      - { name: download_strategy }
+
+  download_bundle.video_download_strategy:
+    class: App\Bundle\DownloadBundle\Download\Strategy\VideoDownloadStrategy
+    tags:
+      - { name: download_strategy }
+
+### Strategy Link
+  App\Bundle\DownloadBundle\Link\LinkContext:
+    class: App\Bundle\DownloadBundle\Link\LinkContext
+
+  App\Bundle\DownloadBundle\Converter\DateConverter:
+    class: App\Bundle\DownloadBundle\Converter\DateConverter
+
+  App\Bundle\DownloadBundle\Link\Strategy\AbstractStrategy:
+    class: App\Bundle\DownloadBundle\Link\Strategy\AbstractStrategy
+
+  download_bundle.default_link_strategy:
+    class: App\Bundle\DownloadBundle\Link\Strategy\DefaultLinkStrategy
+    arguments:
+      - '@App\Bundle\DownloadBundle\Converter\DateConverter'
+    tags:
+      - { name: link_strategy }
+
+### Generator
+  download_bundle.element_generator:
+    class: App\Bundle\DownloadBundle\Generator\ElementGenerator
+    arguments:
+      - '@command_bus'
+
+  download_bundle.save_element_handler:
+    class: App\Bundle\DownloadBundle\Generator\Handler\SaveElementHandler
+    public: true
+    arguments:
+      - '@doctrine.orm.entity_manager'
+    tags:
+      - { name: command_handler, handles: App\Bundle\DownloadBundle\Generator\Command\SaveElementCommand }
+
+  download_bundle.element_photo_generator:
+    class: App\Bundle\DownloadBundle\Generator\ElementPhotoGenerator
+    arguments:
+      - 'doctrine.orm.entity_manager'
+      - '@App\Bundle\DownloadBundle\Repository\ElementRepository'
+      - '@command_bus'
+
+  download_bundle.save_element_photo_handler:
+    class: App\Bundle\DownloadBundle\Generator\Handler\SaveElementPhotoHandler
+    public: true
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@App\Bundle\DownloadBundle\Repository\ElementRepository'
+    tags:
+      - { name: command_handler, handles: App\Bundle\DownloadBundle\Generator\Command\SaveElementPhotoCommand }

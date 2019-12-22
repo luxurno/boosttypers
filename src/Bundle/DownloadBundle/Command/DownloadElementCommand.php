@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Command;
 
 use App\Bundle\DownloadBundle\Service\DownloadService;
+use App\Bundle\DownloadBundle\ValueObject\DownloadValueObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,10 +48,12 @@ class DownloadElementCommand extends Command
             '',
         ]);
 
-        $this->downloadService->download(
+        $downloadValueObject = new DownloadValueObject(
             $this->containerBag->get('download.address'),
             $this->containerBag->get('download.count')
         );
+
+        $this->downloadService->download($downloadValueObject);
 
         $output->writeln([
             '==========================',

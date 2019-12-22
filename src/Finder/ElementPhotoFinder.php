@@ -14,6 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ElementPhotoFinder extends AbstractFinder
 {
+    /** @var EntityManagerInterface */
+    private $em;
+
     /** @var array */
     protected $columns = [
         

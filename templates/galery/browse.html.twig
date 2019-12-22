@@ -4,41 +4,43 @@
         <meta charset="UTF-8">
         <title>{% block title %}Browse Galery{% endblock %}</title>
     </head>
-    <body onload="javascript:onLoad()" data-id="{{ id }}" data-is-video="{{ photoNumber }}"
-          data-photo-number="{{ photoNumber }}" data-date="{{ date }}">
-        {% if isVideo == false %}
-            <form method="post" action="/galery/{{ photoNumber }}">
-            <input name="button" type="button" onclick="Previous()" value="<-- Poprzednie Zdjecie">
-            Zdjecie <span id="number">{{ photoNumber }}</span>
-            <input name="button" type="button" onclick="Next()" value="Nastepne Zdjecie -->"><br/>
+    <body data-id="{{ id }}" data-is-video="{{ is_video }}"
+          data-photo-number="{{ photo_number }}" data-date="{{ date }}">
+        {% if is_video == false %}
+            <form method="post" action="/galery/{{ photo_number }}">
+            <input id="prev-button" type="button" onclick="Previous()" value="<-- Poprzednie Zdjecie">
+            Zdjecie <span id="number"></span> z {{ photo_number }}
+            <input id="next-button" type="button" onclick="Next()" value="Nastepne Zdjecie -->"><br/>
             <img id="myFormImg" src="" width="320" height="240">
             </form>
         {% else %}
-            Film <span id="number">{{ photo_number }}</span><br/>
-            <video src="http://www.watchthedeer.com/Video/Feeder.20180711_001716_1.mp4" id="vidOne" autoplay="autoplay" loop="loop" width="320" height="240">
+            Film <span id="number"></span> z {{ photo_number }}<br/>
+            <video id="myFormVideo" src="" autoplay="autoplay" loop="loop" width="320" height="240" controls>
             </video><br/>
         {% endif %}
         <a href="/galery">Powrót</a>
     </body>
     {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script type="text/javascript">
-            let num,i;
-            let myImageCnt = document.querySelector('body').dataset.photo-number;
-            let isVideo = document.querySelector('body').dataset.is-video;
+        <script>
+            let i;
+            let myImageCnt = $('body').data("photo-number");
+            let isVideo = $('body').data("is-video");
+            console.log(isVideo);
             let myImage = [];
-            console.log(myImage);
-            num = 0;
+            let num = 0;
 
             function onLoad(myImage)
             {
                 var response = $.ajax({
                     type: 'GET',
-                    url: `/element/photos/${document.querySelector('body').dataset.id}`,
+                    url: `/v1/element/photos/${document.querySelector('body').dataset.id}`,
                     dataType: 'json',
                     async: false,
                     success: function (data) {
-                        return data;
+                        $.each(data, function(index, element) {
+                            myImage.push(element.href);
+                        });
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);
@@ -47,42 +49,48 @@
                 }).responseText;
             }
 
-            $.each(JSON.parse(response), function(index, element) {
-                console.log(element.href);
+            function setFirstElement(myImage, isVideo)
+            {
+                if (isVideo === 1) {
+                    $("#myFormVideo").attr('src', myImage[0]);
+                    $("#number").append("1");
+                } else {
+                    $("#myFormImg").attr('src', myImage[0]);
+                    $("#number").append("1");
+                }
+            }
 
-                myImage.push(element.href);
-                //console.log(myImage);
-                $('body').append($('<div>', {
-                    text: element.href
-                }));
-            });
-            // Set first image
-            //console.log(myImage[0]);
-            //$("#myFormImg").attr("src", myImage[0]);
 
-            function Next(){
+            function Next()
+            {
                 num++;
+                if (num >= myImageCnt) {
+                    num = 0;
+                }
+                $("#myFormImg").attr('src', myImage[num]);
 
-                if(num==myImageCnt){
-                    num=0;
-                }
-                if(document.getElementsByName("myFormImg")[0].complete==true){
-                    document.getElementsByName("myFormImg")[0].src=myImage[num];
-                    document.getElementById("number").innerHTML = num + 1;
-                }
+                let value = num + 1;
+
+                $("#number").empty();
+                $("#number").append(value);
             }
 
             function Previous()
             {
-                if(num==0){
-                    num=myImageCnt-1;
+                num--;
+                if (num < 0) {
+                    num = parseInt(myImageCnt);
+                } else {
+                    let value = num + 1;
+
+                    $("#number").empty();
+                    $("#number").append(value);
                 }
-                else num--;
-                if(document.getElementsByName("myFormImg")[0].complete==true){
-                    document.getElementsByName("myFormImg")[0].src=myImage[num];
-                    document.getElementById("number").innerHTML = num + 1;
-                }
+                $("#myFormImg").attr('src', myImage[num]);
             }
+
+            onLoad(myImage);
+            setFirstElement(myImage, isVideo);
         </script>
     {% endblock %}
 </html>

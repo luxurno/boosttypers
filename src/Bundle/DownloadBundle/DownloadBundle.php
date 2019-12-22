@@ -4,7 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Bundle\DownloadBundle;
 
-use App\Bundle\DownloadBundle\DependencyInjection\Compiler\DownloadDataCompilerPass;
+use App\Bundle\DownloadBundle\DependencyInjection\Compiler\DownloadCompilerPass;
+use App\Bundle\DownloadBundle\DependencyInjection\Compiler\LinkCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -17,6 +18,7 @@ class DownloadBundle extends Bundle
     {
         parent::build($container);
         
-        $container->addCompilerPass(new DownloadDataCompilerPass());
+        $container->addCompilerPass(new DownloadCompilerPass());
+        $container->addCompilerPass(new LinkCompilerPass());
     }
 }

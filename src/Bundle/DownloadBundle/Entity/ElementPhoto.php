@@ -32,7 +32,7 @@ class ElementPhoto
     protected $href;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Element", inversedBy="analyses", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Element", inversedBy="photos", cascade={"persist"})
      * @ORM\JoinColumn(name="element_id", referencedColumnName="id")
      */
      protected $element;

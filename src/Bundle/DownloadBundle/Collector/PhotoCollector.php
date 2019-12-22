@@ -17,6 +17,8 @@ class PhotoCollector
     {
         if (strpos($stringPhotos, ';') !== false) {
             $photos = explode(';', $stringPhotos);
+        } else {
+            $photos[] = $stringPhotos;
         }
         
         return $photos;
