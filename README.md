@@ -1,5 +1,8 @@
 ### Created for BoostTypers
-Project created for parsing watchthedeer website
+Project created for parsing http://watchthedeer.com website
+
+### Instalation for dependencies
+composer install
 
 ### Download Gallery Commands
 ###### Use following command to download elements
@@ -23,6 +26,9 @@ vendor/bin/codecept run api
 
 ###### Running Unit Tests in Codeception
 vendor/bin/codecept run unit
+
+###### Running PHPSpec
+vendor/phpspec/phpspec/bin/phpspec run
 
 ## Static Code Analyse
 ###### Running PHPStan
