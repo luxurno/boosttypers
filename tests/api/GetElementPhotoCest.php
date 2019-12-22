@@ -10,7 +10,7 @@ use \Codeception\Util\HttpCode;
  */
 class GetElementPhotoCest
 {
-    const ID = 2;
+    const ID = 1;
     
     public function _before(ApiTester $I)
     {
@@ -24,7 +24,10 @@ class GetElementPhotoCest
         $I->sendGET('/v1/element/photos/'.self::ID, []);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $response = $I->grabResponseAsArray();
-        
+
+        print_r($response);
+        die;
+
         $I->assertEquals(1, count($response));
         $element = $response[0];
         

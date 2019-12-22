@@ -165,7 +165,6 @@ class JavascriptDownloadService
         } catch (Throwable $e) {
             throw new JavascriptDownloadPhotoException($e->getMessage(), $e->getCode());
         }
-        @unlink(COOKIE_FILE);
 
         return $this->videoConverter->convert($this->lastUrl, $video);
     }

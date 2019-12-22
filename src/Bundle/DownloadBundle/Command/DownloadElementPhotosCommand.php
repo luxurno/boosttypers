@@ -34,12 +34,12 @@ class DownloadElementPhotosCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Command for download Elements Photos');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln([
             'Downloading Elements Photos Data',
