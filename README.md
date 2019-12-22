@@ -13,3 +13,7 @@ vendor/bin/codecept run api
 
 ### Running Unit Tests in Codeception
 vendor/bin/codecept run unit
+
+## Static Code Analyse
+### Running PHPStan
+vendor/bin/phpstan analyse src
