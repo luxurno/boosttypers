@@ -46,22 +46,24 @@
 
         function onLoad()
         {
-            var response = $.ajax({
-                type: 'GET',
-                url: generateRequestUri(),
-                dataType: 'json',
-                async: false,
-                success: function (data) {
-                    $("#table-holder").empty();
-                    $.each(data, function(index, element) {
-                        $("#table-holder").append(`${index+1}. <a href="/galery/${element.id}">${element.title}</a><br/>`);
-                    });
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(thrownError);
-                }
-            }).responseText;
+            if (sortType.length !== 0 && sortBy.length !== 0) {
+                var response = $.ajax({
+                    type: 'GET',
+                    url: generateRequestUri(),
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        $("#table-holder").empty();
+                        $.each(data, function(index, element) {
+                            $("#table-holder").append(`${index+1}. <a href="/galery/${element.id}">${element.title}</a><br/>`);
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                }).responseText;
+            }
         }
 
         onLoad();
