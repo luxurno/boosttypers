@@ -42,6 +42,10 @@ class JavascriptDownloadStrategy extends AbstractStrategy
     {
         $video = $this->javascriptDownloadService->getVideo($website);
 
-        return [$video];
+        if ($video !== null) {
+            return [$video];
+        } else {
+            return [];
+        }
     }
 }

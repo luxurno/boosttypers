@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use App\Service\GaleryService;
 use App\Bundle\DownloadBundle\Repository\ElementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 class GalleryController extends AbstractController
 {
     /**
-     * @param GaleryService $galleryService
-     * @param Request       $request
+     * @param Request $request
      * @return Response
      */
-    public function listGallery(
-        GaleryService $galleryService,
-        Request $request
-    ): Response
+    public function listGallery(Request $request): Response
     {
-        $results = $galleryService->getResults();
         
         return $this->render('galery/index.html.twig', [
             'sort_type' => $request->get('sort_type'),

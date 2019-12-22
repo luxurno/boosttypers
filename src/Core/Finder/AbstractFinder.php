@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Core\Finder;
 
 use Doctrine\DBAL\Statement;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
@@ -21,6 +22,9 @@ abstract class AbstractFinder
     /** @var Statement */
     private $statment = '';
 
+    /** @var GenericBuilder */
+    protected $queryBuilder;
+
     /**
      * @param EntityManagerInterface $em
      */
@@ -33,6 +37,8 @@ abstract class AbstractFinder
 
     /**
      * @param Select $query
+     * @return array
+     * @throws DBALException
      */
     public function executeSelectStatment(Select $query): array
     {
@@ -40,25 +46,16 @@ abstract class AbstractFinder
             ->prepare($query);
 
         $this->bindValues();
-
         $this->statment->execute();
 
-//        echo "</br>Wrapped: </br>";
-//        print_r($this->statment->getWrappedStatement());
-//
-//        echo "</br>ErrorCode: </br>";
-//        print_r($this->statment->errorCode());
-//
-//        echo "</br>ErrorStatment</br>";
-//        print_r($this->statment->errorInfo());
-//
-//        echo "Fetched:<br/>";
-//        print_r($this->statment->fetchAll());
-//
         return $this->statment->fetchAll();
     }
 
-    protected function applyCriteria(Select $query, array $criteria)
+    /**
+     * @param Select $query
+     * @param array $criteria
+     */
+    protected function applyCriteria(Select $query, array $criteria): void
     {
         foreach ($criteria as $key => $value) {
             $query->where()
@@ -67,8 +64,7 @@ abstract class AbstractFinder
         }
     }
 
-
-    private function bindValues()
+    private function bindValues(): void
     {
         foreach ($this->queryBuilder->getValues() as $key => $value) {
             if (is_numeric($value)) {
