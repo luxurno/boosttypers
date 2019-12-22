@@ -3,7 +3,6 @@
 namespace Tests\api;
 
 use ApiTester;
-use \Codeception\Util\HttpCode;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
@@ -24,9 +23,6 @@ class GetElementPhotoCest
         $I->sendGET('/v1/element/photos/'.self::ID, []);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $response = $I->grabResponseAsArray();
-
-        print_r($response);
-        die;
 
         $I->assertEquals(1, count($response));
         $element = $response[0];
