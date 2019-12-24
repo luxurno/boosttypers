@@ -14,6 +14,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 define('COOKIE_FILE', __DIR__.'/cookie.txt');
 @unlink(COOKIE_FILE);
 
+define('CURL_LOG_FILE', __DIR__.'/request.txt');
+@unlink(CURL_LOG_FILE);//clear curl log
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>
  */
@@ -53,6 +55,7 @@ class JavascriptDownloadService
      */
     public function getDom($url, $post = false) {
         $this->dom = new Dom();
+        $this->stdeer = '';
 
         if($this->lastUrl) $header[] = "Referer: {$this->lastUrl}";
         $curlOptions = array(
@@ -65,7 +68,7 @@ class JavascriptDownloadService
             CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_HEADER => 0,
+            CURLOPT_VERBOSE => true,
             CURLOPT_USERAGENT => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36",
             CURLOPT_COOKIEFILE => COOKIE_FILE,
             CURLOPT_COOKIEJAR => COOKIE_FILE,
@@ -76,10 +79,12 @@ class JavascriptDownloadService
             $curlOptions[CURLOPT_POST] = true;
         }
         $curl = curl_init();
+        $verbose = fopen('php://temp', 'w+'); // Disabling cURL Headers output in tests and commands
+        curl_setopt($curl, CURLOPT_STDERR, $verbose); // Disabling cURL Headers output in tests and commands
+
         curl_setopt_array($curl, $curlOptions);
         $data = curl_exec($curl);
         $this->lastUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-
         try {
             $dom = $this->dom->load($data);
         } catch (Throwable $e) {

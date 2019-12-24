@@ -28,7 +28,7 @@ vendor/bin/codecept run api
 vendor/bin/codecept run unit
 
 ###### Running PHPSpec
-vendor/phpspec/phpspec/bin/phpspec run
+vendor/bin/phpspec run
 
 ## Static Code Analyse
 ###### Running PHPStan

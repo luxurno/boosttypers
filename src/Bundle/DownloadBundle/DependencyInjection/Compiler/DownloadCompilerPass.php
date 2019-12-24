@@ -27,7 +27,7 @@ class DownloadCompilerPass implements CompilerPassInterface
         foreach ($strategyServiceIds as $strategyServiceId) {
             $contextDefinition->addMethodCall(
                 'addStrategy',
-                array(new Reference($strategyServiceId))
+                [new Reference($strategyServiceId)]
             );
         }
     }

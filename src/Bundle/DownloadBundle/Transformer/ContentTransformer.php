@@ -6,8 +6,6 @@ namespace App\Bundle\DownloadBundle\Transformer;
 
 use App\Bundle\DownloadBundle\Collection\ElementDTOCollection;
 use App\Bundle\DownloadBundle\Factory\ElementDTOFactory;
-use Exception;
-use PHPHtmlParser\Dom;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>

@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace App\Bundle\DownloadBundle\Download\Strategy;
 
-use App\Bundle\DownloadBundle\Collector\PhotoCollector;
-use App\Bundle\DownloadBundle\Provider\PhotoProvider;
 use App\Bundle\DownloadBundle\Service\JavascriptDownloadService;
 
 /**

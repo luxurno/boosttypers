@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Link\Strategy;
 
 use App\Bundle\DownloadBundle\Converter\DateConverter;
+use App\Bundle\DownloadBundle\Decoder\StringDecoder;
 use App\Bundle\DownloadBundle\Exception\DownloadElementException;
 use Exception;
 use PHPHtmlParser\Dom;
@@ -18,10 +19,16 @@ class DefaultLinkStrategy extends AbstractStrategy
     /** @var DateConverter */
     private $dateConverter;
 
-    public function __construct(DateConverter $dateConverter)
+    /** @var StringDecoder */
+    private $stringDecoder;
+
+    public function __construct(
+        DateConverter $dateConverter,
+        StringDecoder $stringDecoder
+    )
     {
         $this->dateConverter = $dateConverter;
-
+        $this->stringDecoder = $stringDecoder;
     }
 
     /**
@@ -64,6 +71,7 @@ class DefaultLinkStrategy extends AbstractStrategy
             } catch (Exception $ex) {
             }
         }
+        $this->stringDecoder->decode($array);
 
         return $array;
     }

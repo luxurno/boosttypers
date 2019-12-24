@@ -10,8 +10,6 @@ use App\Bundle\DownloadBundle\Link\LinkContext;
 use App\Bundle\DownloadBundle\Transformer\ContentTransformer;
 use App\Bundle\DownloadBundle\Validator\ElementValidator;
 use App\Bundle\DownloadBundle\ValueObject\DownloadValueObject;
-use PHPHtmlParser\Dom;
-use Throwable;
 
 /**
  * @author Marcin Szostak <marcin.szostak@luxurno.pl>

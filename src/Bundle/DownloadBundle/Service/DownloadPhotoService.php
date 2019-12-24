@@ -10,7 +10,6 @@ use App\Bundle\DownloadBundle\Download\Exception\InvalidStrategyException;
 use App\Bundle\DownloadBundle\Factory\ElementDTOFactory;
 use App\Bundle\DownloadBundle\Finder\ElementFinder;
 use App\Bundle\DownloadBundle\Generator\ElementPhotoGenerator;
-use App\Bundle\DownloadBundle\Repository\ElementRepository;
 use App\Bundle\DownloadBundle\Transformer\ContentPhotoTransformer;
 use App\Bundle\DownloadBundle\Validator\ElementPhotoValidator;
 use App\Bundle\DownloadBundle\Validator\PhotoElementLinkValidator;
@@ -42,9 +41,6 @@ class DownloadPhotoService
     /** @var ElementPhotoValidator */
     private $elementPhotoValidator;
 
-    /** @var ElementRepository */
-    private $elementRepository;
-
     /**
      * @param ContentPhotoTransformer $contentPhotoTransformer
      * @param ElementPhotoGenerator $elementPhotoGenerator
@@ -53,7 +49,6 @@ class DownloadPhotoService
      * @param ElementDTOFactory $elementDTOFactory
      * @param DownloadContext $downloadContext
      * @param ElementPhotoValidator $elementPhotoValidator
-     * @param ElementRepository $elementRepository
      */
     public function __construct(
         ContentPhotoTransformer $contentPhotoTransformer,
@@ -62,8 +57,7 @@ class DownloadPhotoService
         ElementFinder $elementFinder,
         ElementDTOFactory $elementDTOFactory,
         DownloadContext $downloadContext,
-        ElementPhotoValidator $elementPhotoValidator,
-        ElementRepository $elementRepository
+        ElementPhotoValidator $elementPhotoValidator
     )
     {
         $this->contentPhotoTransformer = $contentPhotoTransformer;
@@ -73,7 +67,6 @@ class DownloadPhotoService
         $this->elementDTOFactory = $elementDTOFactory;
         $this->downloadContext = $downloadContext;
         $this->elementPhotoValidator = $elementPhotoValidator;
-        $this->elementRepository = $elementRepository;
     }
 
     /**

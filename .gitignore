@@ -20,3 +20,7 @@ nbproject/*
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+### Ignore coockie on Javascript service
+src/Bundle/DownloadBundle/Service/cookie.txt
+src/Bundle/DownloadBundle/Service/request.txt

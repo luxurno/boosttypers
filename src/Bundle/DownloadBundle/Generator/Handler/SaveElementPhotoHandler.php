@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Generator\Handler;
 
 use App\Bundle\DownloadBundle\Entity\ElementPhoto;
+use App\Bundle\DownloadBundle\Factory\ElementPhotoFactory;
 use App\Bundle\DownloadBundle\Generator\Command\SaveElementPhotoCommand;
 use App\Bundle\DownloadBundle\Repository\ElementRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,13 +21,18 @@ class SaveElementPhotoHandler
     /** @var ElementRepository */
     private $elementRepository;
 
+    /** @var ElementPhotoFactory */
+    private $elementPhotoFactory;
+
     public function __construct(
         EntityManagerInterface $em,
-        ElementRepository $elementRepository
+        ElementRepository $elementRepository,
+        ElementPhotoFactory $elementPhotoFactory
     )
     {
         $this->em = $em;
         $this->elementRepository = $elementRepository;
+        $this->elementPhotoFactory = $elementPhotoFactory;
     }
 
     public function handle(SaveElementPhotoCommand $saveElementPhotoCommand): void
@@ -35,7 +41,7 @@ class SaveElementPhotoHandler
         $elementPhotoDTO = $saveElementPhotoCommand->getElementPhotoDTO();
         $elementEntity = $this->elementRepository->findOneBy(['id' => $elementDTO->getId()]);
 
-        $elementPhotoEntity = new ElementPhoto();
+        $elementPhotoEntity = $this->elementPhotoFactory->factory();
         $elementPhotoEntity->setHref($elementPhotoDTO->getHref());
         $elementEntity->addPhoto($elementPhotoEntity);
         $this->em->persist($elementPhotoEntity);

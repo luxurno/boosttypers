@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Bundle\DownloadBundle\Download\Strategy;
 
 use App\Bundle\DownloadBundle\Collector\PhotoCollector;
+use App\Bundle\DownloadBundle\Decoder\StringDecoder;
 use App\Bundle\DownloadBundle\Exception\DownloadElementPhotosException;
 use App\Bundle\DownloadBundle\Provider\PhotoProvider;
 use PHPHtmlParser\Dom;
@@ -21,17 +22,22 @@ class DefaultDownloadStrategy extends AbstractStrategy
     /** @var PhotoProvider */
     private $photoProvider;
 
+    /** @var StringDecoder */
+    private $stringDecoder;
+
     /**
      * @param PhotoCollector $photoCollector
      * @param PhotoProvider $photoProvider
      */
     public function __construct(
         PhotoCollector $photoCollector,
-        PhotoProvider $photoProvider
+        PhotoProvider $photoProvider,
+        StringDecoder $stringDecoder
     )
     {
         $this->photoCollector = $photoCollector;
         $this->photoProvider = $photoProvider;
+        $this->stringDecoder = $stringDecoder;
     }
 
     /**
@@ -66,6 +72,7 @@ class DefaultDownloadStrategy extends AbstractStrategy
             throw new DownloadElementPhotosException();
         }
         $photos = $this->photoCollector->collect($photos);
+        $this->stringDecoder->decode($photos);
         $photos = $this->photoProvider->provide($photos, $website);
 
         return $photos;

@@ -16,6 +16,15 @@ services:
     class: App\Bundle\DownloadBundle\Repository\ElementPhotoRepository
     factory: ['@doctrine', getRepository]
 
+  App\Bundle\DownloadBundle\Decoder\StringDecoder:
+    class: App\Bundle\DownloadBundle\Decoder\StringDecoder
+
+  App\Bundle\DownloadBundle\Factory\ElementFactory:
+    class: App\Bundle\DownloadBundle\Factory\ElementFactory
+
+  App\Bundle\DownloadBundle\Factory\ElementPhotoFactory:
+    class: App\Bundle\DownloadBundle\Factory\ElementPhotoFactory
+
 ### Strategy Download
   App\Bundle\DownloadBundle\Download\DownloadContext:
     class: App\Bundle\DownloadBundle\Download\DownloadContext
@@ -37,6 +46,7 @@ services:
     arguments:
       - '@App\Bundle\DownloadBundle\Collector\PhotoCollector'
       - '@App\Bundle\DownloadBundle\Provider\PhotoProvider'
+      - '@App\Bundle\DownloadBundle\Decoder\StringDecoder'
     tags:
       - { name: download_strategy }
 
@@ -66,6 +76,7 @@ services:
     class: App\Bundle\DownloadBundle\Link\Strategy\DefaultLinkStrategy
     arguments:
       - '@App\Bundle\DownloadBundle\Converter\DateConverter'
+      - '@App\Bundle\DownloadBundle\Decoder\StringDecoder'
     tags:
       - { name: link_strategy }
 
@@ -80,6 +91,7 @@ services:
     public: true
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@App\Bundle\DownloadBundle\Factory\ElementFactory'
     tags:
       - { name: command_handler, handles: App\Bundle\DownloadBundle\Generator\Command\SaveElementCommand }
 
@@ -96,5 +108,6 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@App\Bundle\DownloadBundle\Repository\ElementRepository'
+      - '@App\Bundle\DownloadBundle\Factory\ElementPhotoFactory'
     tags:
       - { name: command_handler, handles: App\Bundle\DownloadBundle\Generator\Command\SaveElementPhotoCommand }

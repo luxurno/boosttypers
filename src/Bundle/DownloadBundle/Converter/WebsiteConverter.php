@@ -14,29 +14,28 @@ class WebsiteConverter
      * @param string $link
      * @return string
      */
-    public function convert(string $website, ?string $link): string
+    public function convert(string $website, string $link): string
     {
+        $link = ltrim($link, '.');
+
         if (strpos($website, 'http://www.watchthedeer.com/') === 0) {
             $website = explode('/', $website);
             array_pop($website);
             $website = implode('/', $website);
         }
-        
-        if (null !== $link) {
-            if (substr($link, 0, 1) !== '/') {
-                $link = '/'.$link;
-            }
-            if (strpos($link, "/") !== false) {
-                $link = explode('/', $link);
-                array_walk(
-                    $link, 
-                    function(&$url) {
-                        $url = rawurlencode(rawurldecode($url));
-                });
-                $link = implode('/', $link);
-            }
-            $website .= ltrim($link, '.');
+
+        if (substr($link, 0, 1) !== '/') {
+            $link = '/'.$link;
         }
+
+        $link = explode('/', $link);
+        array_walk(
+            $link,
+            function(&$url) {
+                $url = rawurlencode(rawurldecode($url));
+        });
+        $link = implode('/', $link);
+        $website .= $link;
         
         return $website;
     }

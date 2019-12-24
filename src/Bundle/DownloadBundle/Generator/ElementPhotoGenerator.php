@@ -62,5 +62,4 @@ class ElementPhotoGenerator
             $this->commandBus->handle(new SaveElementPhotoCommand($elementDTO, $elementPhotoDTO));
         }
     }
-
 }

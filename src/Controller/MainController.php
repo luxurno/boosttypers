@@ -27,35 +27,10 @@ class MainController extends AbstractController
         SessionInterface $session
     ): Response
     {
-        $session->set('isDownloaded', false);
-        if ($session->get('isDownloaded')) {
-            $response = $this->forward('App\Controller\GaleryController::viewGalery', [
-                'count'  => $this->getParameter('download.count'),
-            ]);
-        } else {
-            $response = $this->forward('App\Bundle\DownloadBundle\Controller\DownloadController::download', [
-                'address'  => $this->getParameter('download.address'),
-                'count'  => $this->getParameter('download.count'),
-            ]);
-        }
-        
+        $response = $this->forward('App\Controller\GalleryController::listGallery', [
+            'count'  => $this->getParameter('download.count'),
+        ]);
+
         return $response;
-    }
-
-    public function em(
-        DownloadPhotoService $downloadPhotoService,
-        DownloadService $downloadService
-    ): Response
-    {
-        $downloadValueObject = new DownloadValueObject(
-            $this->getParameter('download.address'),
-            $this->getParameter('download.count')
-        );
-        $downloadPhotoService->downloadPhotos($downloadValueObject);
-
-        die;
-
-        //$downloadService->download($downloadValueObject);
-        //$downloadPhotoService->downloadPhotos($downloadValueObject);
     }
 }
