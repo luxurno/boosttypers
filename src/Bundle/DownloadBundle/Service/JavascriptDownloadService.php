@@ -55,7 +55,6 @@ class JavascriptDownloadService
      */
     public function getDom($url, $post = false) {
         $this->dom = new Dom();
-        $this->stdeer = '';
 
         if($this->lastUrl) $header[] = "Referer: {$this->lastUrl}";
         $curlOptions = array(
@@ -72,7 +71,6 @@ class JavascriptDownloadService
             CURLOPT_USERAGENT => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36",
             CURLOPT_COOKIEFILE => COOKIE_FILE,
             CURLOPT_COOKIEJAR => COOKIE_FILE,
-            CURLOPT_VERBOSE => true,
         );
         if(false !== $post) {
             $curlOptions[CURLOPT_POSTFIELDS] = $post;
