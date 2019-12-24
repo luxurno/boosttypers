@@ -83,6 +83,10 @@ class JavascriptDownloadService
         curl_setopt_array($curl, $curlOptions);
         $data = curl_exec($curl);
         $this->lastUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+        if (false === is_string($data)) {
+            throw new JavascriptDownloadPhotoException('Problem with downloading photos');
+        }
+
         try {
             $dom = $this->dom->load($data);
         } catch (Throwable $e) {
