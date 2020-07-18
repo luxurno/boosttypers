@@ -1,7 +1,19 @@
 ### Created for BoostTypers
 Project created for parsing http://watchthedeer.com website
 
-### Instalation for dependencies
+### Building container
+docker-compose build 
+
+### Running container
+docker-compose up -d
+
+### Stopping container
+docker-compose down
+
+### Running bash to container
+docker-compose exec app_example bash
+
+### Instalation for dependencies (inside container)
 composer install
 
 ### Download Gallery Commands

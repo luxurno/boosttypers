@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  app_example:
+    build:
+      context: .
+      args:
+        PROJECT_ROOT: /var/www
+    command: php -S 0.0.0.0:8000 /public/index.php
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+
