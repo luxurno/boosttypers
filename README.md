@@ -1,4 +1,4 @@
-### Created for BoostTypers
+### Created for BoostTypers (Team Leader Role)
 Project created for parsing http://watchthedeer.com website
 
 ### Building container
@@ -45,3 +45,7 @@ vendor/bin/phpspec run
 ## Static Code Analyse
 ###### Running PHPStan
 vendor/bin/phpstan analyse src
+
+###
+###### Disclaimer
+Copyright 2021 © All rights reserved by Luxurno Marcin Szostak.
